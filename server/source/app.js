@@ -9,11 +9,11 @@ app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get('/status',(req,res)=>{
+app.post('/register',(req,res)=>{
 	res.send({
-		message:"hello world",
-		author:"Martinez"
+		message:`hello ${req.body.email}` 
 	});
 });
 
-app.listen(process.
+app.listen(process.env.PORT || 8081);
+
