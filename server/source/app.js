@@ -3,17 +3,22 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
-
+// const Sequelize = require('sequelize');
+const {sequelize} = require('./models')
 const app = express();
-app.use(morgan('combined'));
-app.use(bodyParser.json());
-app.use(cors());
+const config = require('./config/config')
 
-app.post('/register',(req,res)=>{
-	res.send({
-		message:`hello ${req.body.email}` 
-	});
-});
+app.use(morgan('combined'))
+app.use(bodyParser.json())
+app.use(cors())
 
-app.listen(process.env.PORT || 8081);
+require('./routes')(app)
+// app.listen(config.port)
+
+sequelize.sync()
+  .then(() => {
+	app.listen(config.port)
+	console.log(`server started`)
+})
+
 
